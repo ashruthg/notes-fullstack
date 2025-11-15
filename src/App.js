@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import Navbar from "./components/Navbar"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import NotesList from "./components/NotesList"
+import ProtectedRoute from "./components/ProtectedRoute"
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Navigate to="/notes" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/notes"
+          element={
+            <ProtectedRoute>
+              <NotesList />
+            </ProtectedRoute>
+          }
+        />
+        {/* fallback */}
+        <Route path="*" element={<div className="container mt-5"><h3>Page not found</h3></div>} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
